@@ -15,12 +15,16 @@ export const ContactImage = styled.img`
 `;
 
 export const ContactNumber = styled.p`
+  max-width: 12.5rem;
   color: grey;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 `;
 
 export const ContactTitle = styled.h3`
   text-transform: capitalize;
-  max-width: 15rem;
+  max-width: 12.5rem;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;

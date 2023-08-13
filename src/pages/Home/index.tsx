@@ -1,22 +1,36 @@
-import { useQuery } from "@apollo/client";
 import { HomeSection, List, SearchContainer, SearchInput } from "./index.styles";
-import { ContactItem } from "@/components";
-import GET_CONTACTS from "@/Graphql/query/getContacts";
-import { GetContactsResponseType } from "@/types";
+import { BottomBar, ContactItem, Pagination } from "@/components";
+import useContacts from "@/api/useContacts";
+
 
 function Home(){
-  const {data} = useQuery<GetContactsResponseType>(GET_CONTACTS);
+  const {data, setKeyword, setPage} = useContacts();
+
+  const {
+    keyword,
+    contacts,
+    loading,
+    page,
+    totalPages
+  } = data;
+  
   return (
     <>
       <HomeSection direction="column" size={1.6}>
         <h2>Contact List</h2>
         <SearchContainer>
-          <SearchInput placeholder="Search contact name ...."/>
+          <SearchInput 
+            placeholder="Search contact name ...."
+            value={keyword}
+            onChange={(e)=> setKeyword(e.target.value)}
+            disabled={loading}
+          />
         </SearchContainer>
         <List>
           {
-            data?.contact?.map((contact)=>(
+            contacts?.map((contact)=>(
               <ContactItem
+                key={contact.id}
                 data={contact}
                 onClickContact={(id)=>console.log(id)}
                 onClickDelete={(id)=> console.log('deleted',id)}
@@ -26,6 +40,13 @@ function Home(){
           }
         </List>
       </HomeSection>
+      <BottomBar>
+        <Pagination
+          page={page}
+          setPage={setPage}
+          totalPages={totalPages}
+        />
+      </BottomBar>
     </>
   );
 }

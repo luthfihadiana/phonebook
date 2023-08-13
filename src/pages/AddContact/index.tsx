@@ -2,9 +2,9 @@ import { Button, Spacer } from "@/styles";
 import {useFieldArray, useForm} from 'react-hook-form';
 import { useNavigate } from "react-router-dom";
 import { yupResolver } from '@hookform/resolvers/yup';
-import { InputNameContainers,StyledInput, AddContactSection, AddNumberContainer, PhoneNumberInputContainer, SubmitButtonContainer, SubmitButtonContent } from "./index.styles";
+import { InputNameContainers,StyledInput, AddContactSection, AddNumberContainer, PhoneNumberInputContainer, SubmitButton} from "./index.styles";
 import AddContactSchema, {AddContactSchemaData} from './schema';
-import { Controller, Icons } from "@/components";
+import { BottomBar, Controller, Icons } from "@/components";
 import { useMutation } from "@apollo/client";
 import ADD_CONTACT from "@/Graphql/mutation/addContact";
 import { AddContactResponseType, AddContactRequestType } from "@/types";
@@ -31,18 +31,22 @@ function AddContact(){
   });
 
   const onSubmit = async (data: AddContactSchemaData) =>{
-    await AddContactMutation({
-      variables: {
-        data:{
-          first_name: data?.firstName,
-          last_name: data?.lastName,
-          phones: {
-            data: data?.phoneNumbers.map(phoneNumber => ({number: phoneNumber.number}))
+    try{
+      await AddContactMutation({
+        variables: {
+          data:{
+            first_name: data?.firstName,
+            last_name: data?.lastName,
+            phones: {
+              data: data?.phoneNumbers.map(phoneNumber => ({number: phoneNumber.number}))
+            }
           }
         }
-      }
-    })
-    navigate('/');
+      })
+      navigate('/');
+    }catch(e){
+      console.log('error',e);
+    }
   }
 
   return (
@@ -97,17 +101,15 @@ function AddContact(){
         <AddNumberContainer>
         </AddNumberContainer>
       </Spacer>
-      <SubmitButtonContainer>
-        <SubmitButtonContent>
-          <Button
-            colorScheme="success"
-            onClick={handleSubmit(onSubmit)}
-            disabled={loading}
-          >
-            Submit
-          </Button>
-        </SubmitButtonContent>
-      </SubmitButtonContainer>
+      <BottomBar>
+        <SubmitButton
+          colorScheme="success"
+          onClick={handleSubmit(onSubmit)}
+          disabled={loading}
+        >
+          Submit
+        </SubmitButton>
+      </BottomBar>
     </AddContactSection>
   );
 }

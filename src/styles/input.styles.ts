@@ -12,6 +12,9 @@ const Input = styled.input`
     outline: none;
     box-shadow: 2px 2px 6px #D8DEE3;
   }
+  &:disabled{
+    background-color: #F5F8FA;
+  }
 `;
 
 export default Input;

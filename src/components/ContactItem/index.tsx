@@ -3,6 +3,7 @@ import Icons from "../Icons";
 import { ContactBadge, ContactImage, ContactItem, ContactNumber, ContactTitle } from "./index.styles";
 import { ContactType } from "@/types";
 
+
 type ContactPropTypes= {
   data: ContactType,
   onClickDelete?: (id:number) => void,
