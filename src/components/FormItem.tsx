@@ -8,6 +8,7 @@ type FormItemPropType = {
   message?: string,
   colorScheme?: ColorSchemeType,
   children: ReactNode,
+  suffixElement?: ReactNode,
 };
 
 function FormItem({
@@ -15,11 +16,17 @@ function FormItem({
   message,
   colorScheme,
   children,
+  suffixElement,
 }:FormItemPropType){
   return(
     <Spacer direction="column" size={0.8}>
       {label&& <Label colorScheme={colorScheme}>{label}</Label>}
-      {children}
+      {suffixElement ? 
+        <Spacer direction="row" size={0.8}>
+          {children}
+          {suffixElement}
+        </Spacer>
+      : children}
       {message && <Message colorScheme={colorScheme}>{message}</Message>}
     </Spacer>
   );

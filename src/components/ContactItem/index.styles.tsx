@@ -17,3 +17,18 @@ export const ContactImage = styled.img`
 export const ContactNumber = styled.p`
   color: grey;
 `;
+
+export const ContactTitle = styled.h3`
+  text-transform: capitalize;
+  max-width: 15rem;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+`;
+
+export const ContactBadge = styled.span`
+  background-color: grey;
+  color: white;
+  padding: 0 0.4rem;
+  border-radius: 5px;
+`;

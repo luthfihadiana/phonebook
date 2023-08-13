@@ -1,4 +1,4 @@
-import React, { ReactElement} from 'react';
+import React, { ReactElement, ReactNode} from 'react';
 import {Control, FieldValues, Path, Controller as RHFController} from 'react-hook-form';
 import { FormItem } from '.';
 
@@ -7,6 +7,7 @@ type ControllerPropType<DataSchemeType extends FieldValues> = {
   label?:string,
   name: Path<DataSchemeType>,
   "data-testid"?: string | undefined,
+  suffixElement?: ReactNode,
   children: ReactElement,
 };
 
@@ -15,6 +16,7 @@ function Controller<T extends FieldValues>({
   label,
   name,
   'data-testid': dataTestId = '',
+  suffixElement,
   children,
 }:ControllerPropType<T>){
   return(
@@ -27,6 +29,7 @@ function Controller<T extends FieldValues>({
           colorScheme={error ? 'danger': 'default'}
           message={error?.message || ''}
           data-testid={dataTestId}
+          suffixElement={suffixElement}
         >
           {
             React.cloneElement(children, {
