@@ -12,7 +12,6 @@ function Pagination({
   setPage,
   totalPages = 0,
 }:PaginationPropType){
-  console.log(totalPages);
   return(
     <PaginationContainer>
       <PaginationItem>

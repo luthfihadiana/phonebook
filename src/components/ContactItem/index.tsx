@@ -6,13 +6,15 @@ import { ContactType } from "@/types";
 
 type ContactPropTypes= {
   data: ContactType,
-  onClickDelete?: (id:number) => void,
-  onClickStar?: (id:number) => void,
+  isFavorite?: boolean,
+  onClickDelete?: () => void,
+  onClickStar?: () => void,
   onClickContact: (id:number) => void,
 };
 
 function Contact({
   data,
+  isFavorite = false,
   onClickContact,
   onClickDelete,
   onClickStar,
@@ -27,12 +29,12 @@ function Contact({
 
   const deleteHandler = (e: React.MouseEvent<Element, MouseEvent>) => {
     e.stopPropagation();
-    if(onClickDelete) onClickDelete(id);
+    if(onClickDelete) onClickDelete();
   }
 
   const favoriteHandler = (e: React.MouseEvent<Element, MouseEvent>) => {
     e.stopPropagation();
-    if(onClickStar) onClickStar(id);
+    if(onClickStar) onClickStar();
   }
   
   return(
@@ -53,7 +55,7 @@ function Contact({
             <Icons name="delete" color="grey"/>
           </a>
           <a onClick={favoriteHandler}>
-            <Icons name="star" color="grey"/>
+            <Icons name="star" color={isFavorite?"#FFEB3A":"grey"}/>
           </a>
         </Spacer>
       </ContactItem>

@@ -11,3 +11,5 @@ export type {default as CheckExisitingContactRequestType} from './CheckExistingC
 export type {default as CheckExistingContactResponseType} from './CheckExistingContactResponse.type';
 export type {default as AddContactSchemaDataType} from './AddSchemeData.type';
 export type {default as CheckContactType} from './CheckContact.type';
+export type {default as DeleteContactRequestType} from './DeleteContactRequest.type';
+export type {default as DeleteContactResponseType} from './DeleteContactResponse.type';

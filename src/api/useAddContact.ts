@@ -5,7 +5,10 @@ import useCheckExistingContact from "./useCheckExistingContact";
 
 function useAddContact(){
   const [AddContactMutation, {loading: loadingAddContact}] = useMutation<AddContactResponseType, AddContactRequestType>(
-    ADD_CONTACT
+    ADD_CONTACT,
+    {
+      refetchQueries:['GET_CONTACTS']
+    }
   );
   const {checkContact, data} = useCheckExistingContact();
 
