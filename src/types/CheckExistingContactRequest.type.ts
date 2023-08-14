@@ -1,7 +1,7 @@
 type checkExistingContactRequest = {
   firstName: string,
   lastName: string,
-  phoneNumber: string[],
+  phoneNumbers: string[],
 }
 
 export default checkExistingContactRequest;

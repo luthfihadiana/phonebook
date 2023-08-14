@@ -24,7 +24,7 @@ export const ContactNumber = styled.p`
 
 export const ContactTitle = styled.h3`
   text-transform: capitalize;
-  max-width: 12.5rem;
+  max-width: 15rem;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;

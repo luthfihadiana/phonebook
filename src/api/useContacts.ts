@@ -4,7 +4,7 @@ import { useQuery } from "@apollo/client";
 import { useEffect, useMemo, useState } from "react";
 import debounce from 'lodash.debounce';
 
-const LIMIT = 9;
+const LIMIT = 12;
 
 function useContacts(){
   const [page, setPage] = useState(1);

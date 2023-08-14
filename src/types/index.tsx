@@ -9,3 +9,5 @@ export type {default as ContactInputType} from './ContactInput.type';
 export type {default as ContactAggregate} from './ContactAggregate.type';
 export type {default as CheckExisitingContactRequestType} from './CheckExistingContactRequest.type';
 export type {default as CheckExistingContactResponseType} from './CheckExistingContactResponse.type';
+export type {default as AddContactSchemaDataType} from './AddSchemeData.type';
+export type {default as CheckContactType} from './CheckContact.type';

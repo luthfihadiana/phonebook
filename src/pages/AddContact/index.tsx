@@ -3,20 +3,17 @@ import {useFieldArray, useForm} from 'react-hook-form';
 import { useNavigate } from "react-router-dom";
 import { yupResolver } from '@hookform/resolvers/yup';
 import { InputNameContainers,StyledInput, AddContactSection, AddNumberContainer, PhoneNumberInputContainer, SubmitButton} from "./index.styles";
-import AddContactSchema, {AddContactSchemaData} from './schema';
+import AddContactSchema from './schema';
 import { BottomBar, Controller, Icons } from "@/components";
-import { useMutation } from "@apollo/client";
-import ADD_CONTACT from "@/Graphql/mutation/addContact";
-import { AddContactResponseType, AddContactRequestType } from "@/types";
+import { AddContactSchemaDataType, CheckContactType } from "@/types";
+import useAddContact from "@/api/useAddContact";
 
 function AddContact(){
   const navigate = useNavigate();
 
-  const [AddContactMutation, {loading}] = useMutation<AddContactResponseType, AddContactRequestType>(
-    ADD_CONTACT
-  );
+  const {addContact, data: {loading}} = useAddContact();
 
-  const { handleSubmit, control } = useForm<AddContactSchemaData>({
+  const { handleSubmit, control, setError } = useForm<AddContactSchemaDataType>({
     resolver: yupResolver(AddContactSchema),
     defaultValues:{
       firstName: '',
@@ -30,22 +27,32 @@ function AddContact(){
     control,
   });
 
-  const onSubmit = async (data: AddContactSchemaData) =>{
+  const onSuccess = () =>{
+    navigate('/');
+  }
+
+  const onSubmit = async (data: AddContactSchemaDataType) =>{
     try{
-      await AddContactMutation({
-        variables: {
-          data:{
-            first_name: data?.firstName,
-            last_name: data?.lastName,
-            phones: {
-              data: data?.phoneNumbers.map(phoneNumber => ({number: phoneNumber.number}))
+      await addContact(data, onSuccess);
+    }catch(e: unknown){
+      if(e instanceof Error){
+        console.error("error",e);
+      }else{
+        const nonUniqueData = e as CheckContactType;
+        if(nonUniqueData?.name){
+          setError("firstName", {message: 'Please select different name'});
+          setError("lastName", {message: 'Please select different name'});
+        }
+        if(nonUniqueData?.phoneNumbers){
+          let i = 0;
+          for(const phoneNumber of data.phoneNumbers){
+            if(phoneNumber.number in nonUniqueData.phoneNumbers){
+              setError(`phoneNumbers.${i}.number`,{message: "Please select different number"})
             }
+            i++;
           }
         }
-      })
-      navigate('/');
-    }catch(e){
-      console.log('error',e);
+      }
     }
   }
 
@@ -73,9 +80,8 @@ function AddContact(){
       <Spacer direction="column" size={1.6}>
         {
           fields.map((field, index)=>
-            <PhoneNumberInputContainer direction="row" size={0.8}>
+            <PhoneNumberInputContainer direction="row" size={0.8} key={field.id}>
               <Controller
-                key={field.id} 
                 control={control}
                 name={`phoneNumbers.${index}.number`}
                 label={`Phone Number ${index+1}`}
