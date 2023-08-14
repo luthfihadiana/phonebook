@@ -1,5 +1,5 @@
 import ADD_CONTACT from "@/Graphql/mutation/addContact";
-import { AddContactRequestType, AddContactResponseType, AddContactSchemaDataType } from "@/types";
+import { APIHandlerType, AddContactRequestType, AddContactResponseType, AddContactSchemaDataType } from "@/types";
 import { useMutation } from "@apollo/client";
 import useCheckExistingContact from "./useCheckExistingContact";
 
@@ -16,11 +16,14 @@ function useAddContact(){
     loading: loadingCheckContact,
   } = data;
 
-  const addContact = async (data: AddContactSchemaDataType, onSuccess: ()=> void) =>{
+  const addContact = async (data: AddContactSchemaDataType, {onSuccess, onError}:APIHandlerType) =>{
     const nonUniqueData = await checkContact({
       firstName: data.firstName,
       lastName: data.lastName,
       phoneNumbers: data.phoneNumbers.map(phoneNumber => phoneNumber.number),
+    }, {
+      onError,
+      onSuccess: () => {},
     }) || {};
     if(Object.keys(nonUniqueData).length > 0) throw nonUniqueData;
     try{
@@ -37,7 +40,7 @@ function useAddContact(){
       })
       onSuccess();
     }catch(e){
-      console.log('error',e);
+      onError(e as Error);
     }
   }
 

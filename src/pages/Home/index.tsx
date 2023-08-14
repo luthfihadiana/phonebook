@@ -1,7 +1,9 @@
-import { HomeSection, List, SearchContainer, SearchInput } from "./index.styles";
-import { BottomBar, ContactItem, Pagination } from "@/components";
+import { HomeSection, SearchContainer, SearchInput } from "./index.styles";
+import { BottomBar, ContactItem, Pagination, List} from "@/components";
 import useContacts from "@/api/useContacts";
 import useDeleteContact from "@/api/useDeleteContact";
+import toast from "react-hot-toast";
+import { ContactType } from "@/types";
 
 
 function Home(){
@@ -16,7 +18,13 @@ function Home(){
     favorites,
   } = data;
 
-  const deleteFromFavorite = (id:number|undefined) =>{
+  const addToFavorite = (contact:ContactType) => {
+    setFavorites(prev=>[...prev, contact]);
+    toast.success(`${contact.first_name} ${contact.last_name} added to favorites`);
+  }
+
+  const deleteFromFavorite = (contact:ContactType, isUsingToast:boolean = true) =>{
+    const {id} = contact;
     setFavorites(prev => {
       const newArray = [...prev];
       const index = newArray.findIndex(el => el.id === id);
@@ -24,30 +32,36 @@ function Home(){
         newArray.splice(index, 1);
       }
       return newArray;
-    })
+    });
+    if(isUsingToast) toast.error(`${contact.first_name} ${contact.last_name} removed from favorites`);
   }
 
-  const onClickDelete = async(id:number|undefined, isFavorite=false) =>{
+  const onClickDelete = async(contact:ContactType, isFavorite=false) =>{
+    const onSuccesDeleted = () =>{
+      toast.error(`${contact.first_name} ${contact.last_name} have been deleted`);
+    }
+    const {id} = contact;
     if(!id|| loadingDeleteContact) return;
-    await deleteContact(id);
-    if(isFavorite) deleteFromFavorite(id);
+    await deleteContact(id, {
+      onSuccess: onSuccesDeleted,
+      onError: (e:Error) => toast.error(e.message),
+    });
+    if(isFavorite) deleteFromFavorite(contact, false);
   }
   
   return (
     <>
       <HomeSection direction="column" size={1.6}>
         <h2>Favorites</h2>
-        <List>
+        <List loading={loading} isEmpty={favorites.length === 0}>
           {
             favorites?.map((contact)=>(
               <ContactItem
                 key={contact.id}
                 data={contact}
                 onClickContact={(id)=>console.log(id)}
-                onClickDelete={()=> onClickDelete(contact.id, true)}
-                onClickStar={()=> {
-                  deleteFromFavorite(contact.id);
-                }}
+                onClickDelete={()=> onClickDelete(contact, true)}
+                onClickStar={()=> {deleteFromFavorite(contact)}}
                 isFavorite
               />
             ))
@@ -62,17 +76,15 @@ function Home(){
             disabled={loading}
           />
         </SearchContainer>
-        <List>
+        <List loading={loading} isEmpty={!contacts?.length}>
           {
             contacts?.map((contact)=>(
               <ContactItem
                 key={contact.id}
                 data={contact}
                 onClickContact={(id)=>console.log(id)}
-                onClickDelete={()=> onClickDelete(contact.id)}
-                onClickStar={()=> {
-                  setFavorites(prev=>[...prev, contact]);
-                }}
+                onClickDelete={()=> onClickDelete(contact)}
+                onClickStar={()=> addToFavorite(contact)}
               />
             ))
           }

@@ -1,5 +1,5 @@
 import CHECK_EXISTING_CONTACT from "@/Graphql/query/checkExisitingContact";
-import { CheckContactType, CheckExisitingContactRequestType, CheckExistingContactResponseType } from "@/types";
+import { APIHandlerType, CheckContactType, CheckExisitingContactRequestType, CheckExistingContactResponseType } from "@/types";
 import { useQuery } from "@apollo/client";
 
 function useCheckExistingContact(){
@@ -10,7 +10,10 @@ function useCheckExistingContact(){
     }
   );
 
-  const checkContact = async (data:CheckExisitingContactRequestType) =>{
+  const checkContact = async (data:CheckExisitingContactRequestType,{
+    onSuccess = ()=>{},
+    onError,
+  }:APIHandlerType) =>{
     try {
       const res = await refetch(data);
       if(!res.data.contact.length) return {};
@@ -40,10 +43,10 @@ function useCheckExistingContact(){
         if(Object.keys(checkPhoneNumbers).length>0) prev.phoneNumbers = checkPhoneNumbers;
         return prev;
       },{});
-
+      onSuccess();
       return nonUniqueData;
     }catch(e){
-      console.error(e);
+      onError(e as Error);
     }
   }
 

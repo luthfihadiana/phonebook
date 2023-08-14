@@ -1,4 +1,4 @@
-import { Header } from "..";
+import { Header, Toaster } from "..";
 import { LayouContent, LayoutContainer } from "./index.styles";
 import { Outlet } from "react-router-dom";
 
@@ -9,6 +9,7 @@ function Layout(){
       <LayouContent>
         <Outlet/>
       </LayouContent>
+      <Toaster/>
     </LayoutContainer>
   );
 }

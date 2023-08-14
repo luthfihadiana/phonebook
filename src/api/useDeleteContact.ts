@@ -1,5 +1,6 @@
 import DELETE_CONTACT from "@/Graphql/mutation/deleteContact";
 import { DeleteContactRequestType, DeleteContactResponseType } from "@/types";
+import APIHandler from "@/types/APIHandler.type";
 import { useMutation } from "@apollo/client";
 
 function useDeleteContact(){
@@ -10,11 +11,12 @@ function useDeleteContact(){
     }
   );
 
-  const deleteContact = async (id: number) =>{
+  const deleteContact = async (id: number, {onSuccess, onError}:APIHandler) =>{
     try{
-      await DeleteContactMutation({variables: {id}})
+      await DeleteContactMutation({variables: {id}});
+      onSuccess();
     }catch(e){
-      console.error("error",e);
+      onError(e as Error);
     }
   }
 

@@ -7,6 +7,7 @@ import AddContactSchema from './schema';
 import { BottomBar, Controller, Icons } from "@/components";
 import { AddContactSchemaDataType, CheckContactType } from "@/types";
 import useAddContact from "@/api/useAddContact";
+import toast from "react-hot-toast";
 
 function AddContact(){
   const navigate = useNavigate();
@@ -27,16 +28,20 @@ function AddContact(){
     control,
   });
 
-  const onSuccess = () =>{
+  const onSuccess = (data: AddContactSchemaDataType) =>{
+    toast.success(`${data.firstName} ${data.lastName} have been added`);
     navigate('/');
   }
 
   const onSubmit = async (data: AddContactSchemaDataType) =>{
     try{
-      await addContact(data, onSuccess);
+      await addContact(data, {
+        onSuccess: () => onSuccess(data),
+        onError: (e:Error) => toast.error(e.message)
+      });
     }catch(e: unknown){
       if(e instanceof Error){
-        console.error("error",e);
+        toast.error((e).message || String(e));
       }else{
         const nonUniqueData = e as CheckContactType;
         if(nonUniqueData?.name){
