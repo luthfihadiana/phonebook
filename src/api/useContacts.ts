@@ -54,10 +54,12 @@ function useContacts(){
       contacts: data?.contact,
       totalPages,
       favorites,
+      totalItems: data?.contact_aggregate.aggregate.count || 0,
     },
     setPage,
     setKeyword,
     setFavorites,
+    refetch,
   }
 }
 

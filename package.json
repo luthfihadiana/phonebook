@@ -16,6 +16,7 @@
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@hookform/resolvers": "^3.2.0",
+    "apollo3-cache-persist": "^0.14.1",
     "graphql": "^16.7.1",
     "localforage": "^1.10.0",
     "lodash.debounce": "^4.0.8",

@@ -7,6 +7,7 @@ function Toaster(){
         style:{
           background: '#3eb3ed',
           color:'white',
+          fontSize: '1.4rem'
         },
         success: {
           style: {

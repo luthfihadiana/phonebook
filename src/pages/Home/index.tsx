@@ -1,4 +1,4 @@
-import { HomeSection, SearchContainer, SearchInput } from "./index.styles";
+import { Badge, HomeSection, SearchContainer, SearchInput } from "./index.styles";
 import { BottomBar, ContactItem, Pagination, List} from "@/components";
 import useContacts from "@/api/useContacts";
 import useDeleteContact from "@/api/useDeleteContact";
@@ -7,7 +7,7 @@ import { ContactType } from "@/types";
 
 
 function Home(){
-  const {data, setKeyword, setPage, setFavorites} = useContacts();
+  const {data, setKeyword, setPage, setFavorites, refetch:refetchContacts} = useContacts();
   const {deleteContact, data:{loading:loadingDeleteContact}} = useDeleteContact();
   const {
     keyword,
@@ -16,6 +16,7 @@ function Home(){
     page,
     totalPages,
     favorites,
+    totalItems,
   } = data;
 
   const addToFavorite = (contact:ContactType) => {
@@ -47,12 +48,13 @@ function Home(){
       onError: (e:Error) => toast.error(e.message),
     });
     if(isFavorite) deleteFromFavorite(contact, false);
+    refetchContacts();
   }
   
   return (
     <>
       <HomeSection direction="column" size={1.6}>
-        <h2>Favorites</h2>
+        <h2>Favorites {favorites?.length && <Badge>{favorites?.length}</Badge>}</h2>
         <List loading={loading} isEmpty={favorites.length === 0}>
           {
             favorites?.map((contact)=>(
@@ -67,7 +69,7 @@ function Home(){
             ))
           }
         </List>
-        <h2>Contact List</h2>
+        <h2>Contact List {totalItems && <Badge>{totalItems}</Badge>}</h2>
         <SearchContainer>
           <SearchInput 
             placeholder="Search contact name ...."

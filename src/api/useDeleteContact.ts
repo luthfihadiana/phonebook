@@ -6,9 +6,6 @@ import { useMutation } from "@apollo/client";
 function useDeleteContact(){
   const [DeleteContactMutation, {loading}] = useMutation<DeleteContactResponseType, DeleteContactRequestType>(
     DELETE_CONTACT,
-    {
-      refetchQueries:['GET_CONTACTS']
-    }
   );
 
   const deleteContact = async (id: number, {onSuccess, onError}:APIHandler) =>{

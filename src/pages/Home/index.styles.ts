@@ -24,3 +24,12 @@ export const List = styled.div`
     grid-template-columns: repeat(3,1fr);
   }
 `;
+
+export const Badge = styled.span`
+  border-radius: 0.5rem;
+  background-color: #F5F8FA;
+  font-weight: normal;
+  padding: 0 0.4rem;
+  margin-left: 0.8rem;
+  border: 2px solid #D8DEE3;
+`;
