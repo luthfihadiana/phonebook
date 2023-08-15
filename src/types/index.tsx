@@ -14,3 +14,4 @@ export type {default as CheckContactType} from './CheckContact.type';
 export type {default as DeleteContactRequestType} from './DeleteContactRequest.type';
 export type {default as DeleteContactResponseType} from './DeleteContactResponse.type';
 export type {default as APIHandlerType} from './APIHandler.type';
+export {default as HomeModalEnum} from './HomeModalEnum.enum.ts';

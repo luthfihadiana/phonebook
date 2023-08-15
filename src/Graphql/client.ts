@@ -3,7 +3,7 @@ import { persistCache, LocalStorageWrapper } from 'apollo3-cache-persist';
 
 const cache = new InMemoryCache({});
 
-await persistCache({
+persistCache({
   cache,
   storage: new LocalStorageWrapper(localStorage),
 });
