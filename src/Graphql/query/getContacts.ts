@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 
 const GET_CONTACTS = gql`
-query getContact(
+query GET_CONTACTS(
   $keyword:String="", 
   $offset:Int=0, 
   $limit:Int=10,

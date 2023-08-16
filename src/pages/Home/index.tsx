@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { Badge, HomeSection, SearchContainer, SearchInput } from "./index.styles";
 import { BottomBar, ContactItem, Pagination, List} from "@/components";
 import useContacts from "@/api/useContacts";
@@ -7,6 +8,8 @@ import useModalHome from "./useModalHome";
 
 
 function Home(){
+  const navigate = useNavigate();
+
   const {data, setKeyword, setPage, setFavorites, refetch:refetchContacts} = useContacts();
 
   const {
@@ -38,7 +41,7 @@ function Home(){
               <ContactItem
                 key={contact.id}
                 data={contact}
-                onClickContact={(id)=>console.log(id)}
+                onClickContact={()=> navigate(`/edit-contact/${contact.id}`)}
                 onClickDelete={()=> onSelectData(contact, HomeModalEnum.Delete)}
                 onClickStar={()=> onSelectData(contact, HomeModalEnum.RemoveFavorite)}
                 isFavorite
@@ -61,7 +64,7 @@ function Home(){
               <ContactItem
                 key={contact.id}
                 data={contact}
-                onClickContact={(id)=>console.log(id)}
+                onClickContact={()=> navigate(`/edit-contact/${contact.id}`)}
                 onClickDelete={()=> onSelectData(contact, HomeModalEnum.Delete)}
                 onClickStar={()=> onSelectData(contact, HomeModalEnum.Favorite)}
               />

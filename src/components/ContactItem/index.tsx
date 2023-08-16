@@ -9,7 +9,7 @@ type ContactPropTypes= {
   isFavorite?: boolean,
   onClickDelete?: () => void,
   onClickStar?: () => void,
-  onClickContact: (id:number) => void,
+  onClickContact: () => void,
 };
 
 function Contact({
@@ -24,7 +24,6 @@ function Contact({
     first_name,
     last_name,
     phones,
-    id=0,
   } = data;
 
   const deleteHandler = (e: React.MouseEvent<Element, MouseEvent>) => {
@@ -38,7 +37,7 @@ function Contact({
   }
   
   return(
-    <Card clickable onClick={()=> onClickContact(id)}>
+    <Card clickable onClick={onClickContact}>
       <ContactItem>
         <ContactImage src={`https://icotar.com/initials/${encodeURI(first_name||'default')}.svg`}/>
         <div>

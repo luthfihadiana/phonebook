@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 
 type UseModalParams<T,E extends string> = {
   config:{
-    submitAction: Partial<Record<E,(input:T)=>void>>,
+    submitAction: Partial<Record<E,((input:T)=>void) | (()=>void)>>,
     title: Partial<Record<E, string | ((input:T)=>string)>>,
     desc: Partial<Record<E, string | ((input:T)=>string)>>,
   }

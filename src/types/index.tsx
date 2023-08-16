@@ -15,3 +15,8 @@ export type {default as DeleteContactRequestType} from './DeleteContactRequest.t
 export type {default as DeleteContactResponseType} from './DeleteContactResponse.type';
 export type {default as APIHandlerType} from './APIHandler.type';
 export {default as HomeModalEnum} from './HomeModalEnum.enum.ts';
+export type {default as ContactFormDataType} from './ContactFormData.type.ts';
+export type {default as GetContactResponseType} from './GetContactResponse.type.ts';
+export type {default as GetContactRequestType} from './GetContactRequest.type.ts';
+export type {default as UpdateContactRequestType} from './UpdateContactRequest.type.ts';
+export type {default as UpdateContactResponseType} from './UpdateContactResponse.type.ts';

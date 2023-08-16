@@ -1,5 +1,5 @@
 import ADD_CONTACT from "@/Graphql/mutation/addContact";
-import { APIHandlerType, AddContactRequestType, AddContactResponseType, AddContactSchemaDataType } from "@/types";
+import { APIHandlerType, AddContactRequestType, AddContactResponseType, ContactFormDataType } from "@/types";
 import { useMutation } from "@apollo/client";
 import useCheckExistingContact from "./useCheckExistingContact";
 
@@ -16,7 +16,7 @@ function useAddContact(){
     loading: loadingCheckContact,
   } = data;
 
-  const addContact = async (data: AddContactSchemaDataType, {onSuccess, onError}:APIHandlerType) =>{
+  const addContact = async (data: ContactFormDataType, {onSuccess, onError}:APIHandlerType) =>{
     const nonUniqueData = await checkContact({
       firstName: data.firstName,
       lastName: data.lastName,

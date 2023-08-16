@@ -1,7 +1,7 @@
 import {gql} from '@apollo/client';
 
 const ADD_CONTACT = gql`
-  mutation addContact($data: contact_insert_input!) {
+  mutation ADD_CONTACT($data: contact_insert_input!) {
     insert_contact_one(object: $data) {
       id
       first_name

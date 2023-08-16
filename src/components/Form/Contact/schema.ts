@@ -1,4 +1,4 @@
-import { AddContactSchemaDataType } from "@/types";
+import { ContactFormDataType } from "@/types";
 import * as yup from "yup";
 
 const schema = yup.object({
@@ -19,7 +19,7 @@ const schema = yup.object({
         }
         const parent = context?.from?.[1];
         if(parent){
-          const {phoneNumbers}:AddContactSchemaDataType = parent.value;
+          const {phoneNumbers}:ContactFormDataType = parent.value;
           const foundIndex = phoneNumbers.findIndex(el => el.number === val);
           if(foundIndex!== -1 && foundIndex !== index){
             return false;

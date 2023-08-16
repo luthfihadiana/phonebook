@@ -9,3 +9,4 @@ export {default as Pagination} from './Pagination';
 export {default as Toaster} from './Toaster';
 export {default as LoadingIndicator} from './LoadingIndicator';
 export {default as List} from './List';
+export {default as ContactForm } from './Form/Contact';
