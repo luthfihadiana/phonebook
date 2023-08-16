@@ -4,6 +4,7 @@ import { ContactType, GetContactsByIdsRequestType, GetContactsByIdsResponseType 
 import { useQuery } from "@apollo/client";
 import debounce from "lodash.debounce";
 import { useEffect, useMemo } from "react";
+import toast from "react-hot-toast";
 
 function useFavorites(){
   const [favorites, setFavorites] = useLocalStorage<ContactType[]>("favorites", []);
@@ -23,8 +24,14 @@ function useFavorites(){
 
   useEffect(()=>{
     const req = debounce(async()=>{
-      const res = await refetch({ids: includeIds});
-      setFavorites(res.data.contact);
+      try{
+        const res = await refetch({ids: includeIds});
+        setFavorites(res.data.contact);
+      }catch(e){
+        if(e instanceof Error){
+          toast.error((e).message || String(e));
+        }
+      }
     },500);
 
     req();
