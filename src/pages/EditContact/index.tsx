@@ -15,7 +15,7 @@ function EditContact(){
   const [isEdit, setIsEdit] = useState(false);
   const [show, setShow] = useState(false);
 
-  const {data:{loading:loadingGetContact, contact}} = useContact({
+  const {data:{loading:loadingGetContact, contact}, refetch} = useContact({
     onDemand:false, 
     id: params.id && !isNaN(parseInt(params.id)) ? parseInt(params.id) : -1
   });
@@ -35,7 +35,8 @@ function EditContact(){
 
   const onSuccess = () =>{
     toast.success(`Contact have been edited`);
-    // navigate('/');
+    setIsEdit(false);
+    refetch();
   }
 
   const onSubmitData = async (data: ContactFormDataType) =>{

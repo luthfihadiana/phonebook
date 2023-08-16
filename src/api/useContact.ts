@@ -35,9 +35,10 @@ function useContact({
     data:{
       loading,
       error,
-      contact:data?.contact_by_pk
+      contact:data?.contact_by_pk,
     },
     getContact,
+    refetch,
   }
 }
 

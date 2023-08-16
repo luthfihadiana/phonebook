@@ -20,3 +20,9 @@ export type {default as GetContactResponseType} from './GetContactResponse.type.
 export type {default as GetContactRequestType} from './GetContactRequest.type.ts';
 export type {default as UpdateContactRequestType} from './UpdateContactRequest.type.ts';
 export type {default as UpdateContactResponseType} from './UpdateContactResponse.type.ts';
+export type {default as EditPhoneNumbersRequestType} from './EditPhoneNumberRequest.type.ts';
+export type {default as EditPhoneNumbersResponseType} from './EditPhoneNumberResponse.type.ts';
+export type {default as DeletePhoneNumbersRequestType} from './DeletePhoneNumbersRequest.type.ts';
+export type {default as DeletePhoneNumbersResponseType} from './DeletePhoneNumbersResponse.type.ts';
+export type {default as AddPhoneNumbersRequestType} from './AddPhoneNumbersRequest.type.ts';
+export type {default as AddPhoneNumbersResponseType} from './AddPhoneNumbersResponse.type.ts';

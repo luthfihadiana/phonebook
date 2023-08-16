@@ -1,5 +1,5 @@
 type Phone = {
-  id?:string,
+  id?:number,
   number: string,
 };
 
