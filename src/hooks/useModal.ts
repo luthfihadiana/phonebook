@@ -50,6 +50,8 @@ function useModal<T, E extends string>({
     if(!type || !selectData) return;
     const action = submitAction[type];
     if(action) action(selectData);
+    setSelectData(null);
+    setType(null);
   }
 
   return{

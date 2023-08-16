@@ -35,7 +35,7 @@ function Home(){
     <>
       <HomeSection direction="column" size={1.6}>
         <h2>Favorites {favorites?.length && <Badge>{favorites?.length}</Badge>}</h2>
-        <List loading={loading} isEmpty={favorites.length === 0}>
+        <List loading={loading} isEmpty={!favorites?.length}>
           {
             favorites?.map((contact)=>(
               <ContactItem

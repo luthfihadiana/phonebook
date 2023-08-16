@@ -1,23 +1,25 @@
 import GET_CONTACTS from "@/Graphql/query/getContacts";
-import { ContactType, GetContactsRequestType, GetContactsResponseType } from "@/types";
+import { GetContactsRequestType, GetContactsResponseType } from "@/types";
 import { useQuery } from "@apollo/client";
 import { useEffect, useMemo, useState } from "react";
-import { useLocalStorage } from "@/hooks/useLocalStorage";
 import debounce from 'lodash.debounce';
+import useFavorites from "./useFavorites";
 
 const LIMIT = 12;
 
 function useContacts(){
-  const [favorites, setFavorites] = useLocalStorage<ContactType[]>("favorites", []);
+  const {data: {favorites, loading:loadingFavorites}, setFavorites} = useFavorites();
   const [page, setPage] = useState(1);
   const [keyword, setKeyword] = useState('');
+
   const {data,refetch, loading, error} = useQuery<GetContactsResponseType,GetContactsRequestType>(
     GET_CONTACTS,
     {
+      skip: loadingFavorites || !favorites,
       variables: {
         limit: LIMIT,
         offset: 0,
-        excludeIds: favorites?.map(el => el.id)?.filter((value): value is number => value !== undefined),
+        excludeIds: favorites?.map(el => el.id)?.filter((value): value is number => value !== undefined)||[],
       }
     }
   );
@@ -35,9 +37,18 @@ function useContacts(){
   },[keyword, refetch]);
 
   useEffect(()=>{
-    refetch({
-      offset: (page-1) * LIMIT
-    })
+    const req = debounce(()=>{
+      refetch({
+        offset: (page-1) * LIMIT
+      });
+    },500);
+
+    req();
+
+    return()=>{
+      req.cancel();
+    }
+    
   },[page, refetch])
 
   const totalPages = useMemo(()=>{

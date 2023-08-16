@@ -8,6 +8,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Button, Spacer } from "@/styles";
 import useUpdateContact from "@/api/useUpdateContact";
 import Modal from "@/components/Modal";
+import debounce from "lodash.debounce";
 
 function EditContact(){
   const navigate = useNavigate();
@@ -29,9 +30,25 @@ function EditContact(){
   }),[contact]);
 
   useEffect(()=>{
-    if(params.id && !isNaN(parseInt(params.id))) return;
-    navigate('/',{replace:true});
-  },[params.id, navigate])
+    const deb = debounce(()=>{
+      if(!params.id || isNaN(parseInt(params.id))){
+        toast.error('Not valid contact id');
+        navigate('/',{replace:true});
+
+      }else{
+        if(!loadingGetContact && !contact){
+          toast.error('Contact not found');
+          navigate('/',{replace: true});
+        }
+      }
+    },100);
+
+    deb();
+
+    return () => {
+      deb.cancel();
+    }
+  },[loadingGetContact, contact, navigate, params]);
 
   const onSuccess = () =>{
     toast.success(`Contact have been edited`);

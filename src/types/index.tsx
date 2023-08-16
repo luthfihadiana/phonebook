@@ -26,3 +26,5 @@ export type {default as DeletePhoneNumbersRequestType} from './DeletePhoneNumber
 export type {default as DeletePhoneNumbersResponseType} from './DeletePhoneNumbersResponse.type.ts';
 export type {default as AddPhoneNumbersRequestType} from './AddPhoneNumbersRequest.type.ts';
 export type {default as AddPhoneNumbersResponseType} from './AddPhoneNumbersResponse.type.ts';
+export type {default as GetContactsByIdsResponseType} from './GetContactsByIdsResponse.type.ts';
+export type {default as GetContactsByIdsRequestType} from './GetContactsByIdsRequest.type.ts';
